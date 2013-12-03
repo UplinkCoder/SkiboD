@@ -2,16 +2,24 @@ module SkiboCard;
 import std.conv:to;
 import std.exception:enforce;
 
+
+
 struct SkiboCard {
 	public:
 	this (int v) {
 		enforce(v>=to!int(CardValue._1)&&v<=to!int(CardValue._J),"The is no such Card in Skibo");
 		Value=to!CardValue(v);
 	}
-		
-	
-	const bool opEquals(const SkiboCard c)  {return opCmp(c)==0;} 
-	const bool canBeDropedOn(const SkiboCard c) {return (Value==13||Value==c.Value+1);}
+
+	@property static immutable SkiboCard Joker = SkiboCard(SkiboCard.CardValue._J);
+
+	const bool opEquals(const SkiboCard c)  {return opCmp(c)==0;}
+	 
+	SkiboCard opBinary(string op)(int rhs) {
+	static if (op == "+") return SkiboCard(Value+rhs);
+	else static if (op == "-") return SkiboCard(Value-rhs);
+	else static assert(0, "Operator "~op~" not implemented");
+}
 	const int opCmp (const SkiboCard rhs) {
 		//TODO do something about Joker handling
 		if (Value<rhs.Value) return -1;

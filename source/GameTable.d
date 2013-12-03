@@ -1,106 +1,79 @@
 //module SkiboD.GameTable;
 import std.stdio:writeln;
 
-
+import cardstack;
 import std.random;
+import MainStack:MainStack;
 import Player:Player;
 import std.exception:enforce;
-import SkiboCard:SkiboCard;
+
 import arrayUtils:makeArray;
 
 struct GameTable {
 	public:
-	void startGame() {
-		enforce(!running,"You cannot start a running Game again :D");
-		 _startGame();
-	}
 	SkiboCard draw() {return mainStack.draw();} 
-	GameTable haltGame() {halted=true;return this;}
-	void resumeGame(GameTable GT){this=GT;halted=false;}
+	@property  immutable(Player[]) players() {return cast(immutable)(_players);}
+	@property  immutable(bool) halted() {return cast(immutable)(_halted);}
+	@property  immutable(bool) running() {return cast(immutable)(_running);}
 	
 	int registerPlayer(ref Player p){
 		if(!running) {
-			players ~= p;
+			_players ~= p;
 			return players.length;
 		} else {
 			return 0;
 		}
 	}
+	void run() {
+		_running=true;
+	}
 	
 	void notifyPlayers() {
-		foreach (player;players) {
+		foreach (player;_players) {
 			player.notify();
 		}
-	}	
-	private:
-	bool halted = false;
-	bool running = false;
-	Player players[];
+	}
 	
-	//Player* onTurn;
-	
-	MainStack mainStack;
-	SkiboCard[] dropStacks[4];
-	
-
-
-	void _startGame() {
-		mainStack.shuffle;
-		enforce(players.length>1,"how do you expect to start a game with just one player ?");
-		running=true; 
-		startGameLoop();
+	void startGame() {
+		enforce(!running,"You cannot start a running Game again :D");
+		 _startGame();
 	}
 	
 	void startGameLoop() {
 		while (running) {
-			foreach (player;players) {
+			foreach (player;_players) {
 				player.turn();
 			}
 		}
 	}
-	
-} 
-struct MainStack  {
-//	@disable this();
 	private:
 	
-	bool shuffled=false;
-	enum InitInts =
-	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
-			13, 13, 13, 13, 13, 13, 13, 13];
+	void _startGame() {
+		enforce(players.length>1,"how do you expect to start a game with just one player ?");
+		run();
+		startGameLoop();
+	}
+	bool _halted = false;
+	bool _running = false;
 	
-	void shuffle() {
-		shuffled=true;
-		Cards=makeArray!SkiboCard(InitInts);
-		Cards.randomShuffle();
-		
+	Player[] _players;
+	
+	//Player* onTurn;
+	
+	MainStack mainStack = MainStack();
+	
+	class DropStack : CardStack,CardStack.Dropable {
+		bool dropCondition(SkiboCard c) {
+			if (discardCondition) discardStack();
+			return (c==SkiboCard.Joker||top==c-1);
+		}
+		private :
+		bool discardCondition() {
+			return (length==13);
+		}
+		void discardStack() {
+			//TODO Implement discardStack
+		}
 	}
 	
-	
-	immutable static int MainStackSize=162;
-	SkiboCard[] Cards = makeArray!SkiboCard(InitInts);
-	alias Cards this;
-	
-	protected SkiboCard draw() {
-		enforce(shuffled,"you gotta shuffle it");
-		if(length==MainStackSize) {
-			shuffle();
-			}
-		Cards = Cards[1..$];
-		return Cards[0];
-	}
-	
-}
-
+} 

@@ -1,5 +1,6 @@
 // main is mainly for testing
 // :D
+import SupportStack:SupportStack;
 import std.stdio;
 import dummyPlayer;
 import GameTable:GameTable;
@@ -18,5 +19,7 @@ void main () {
  	dummyPlayer dummy2 = new dummyPlayer(t);
  	t.startGame();
  	writeln(t);
+ 	SupportStack sup1;
+ 	writeln(sup1.top);
  	
 }

@@ -1,8 +1,13 @@
 /** helper class just for me as Developer */
+import std.file;
+import std.stdio;
 class GameLogger {
-	this() {}
+	File f;
+	this(string FileName = "log.log") {
+		f = File(FileName,"a");
+	}
 	public :
-	void log() {
-		
+	void log(string msg) {
+		f.writeln(msg);
 	}
 }

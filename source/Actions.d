@@ -1,9 +1,9 @@
-interface Action {
-	enum ActionEnum {
+	enum PlayerAction {
+		 notPlaying,
 		 draw,
-		 playCard,
-		 dropCard, // SupportStack
-		 takeCard, // SupportStack
-		 endTurn
+		 playHandCard,
+		 playSkiboStackCard,
+		 playSupportStackCard, // SupportStack
+		 discardCardOnSupportStack // ends turn
 		 };
- }	
+	

@@ -9,8 +9,7 @@ class dummyPlayer:Player {
 		super(t);
 	}
 	override void makeMove () {
-		writeln("Well Player "~to!string(id)~" what do you want to do ?");
-		
+		writeln("Well Player "~to!string(id)~" what do you want to do ?"); 
 		
 		
 		
