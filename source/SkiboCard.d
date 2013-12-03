@@ -1,3 +1,4 @@
+module SkiboCard;
 import std.conv:to;
 import std.exception:enforce;
 
@@ -10,7 +11,7 @@ struct SkiboCard {
 		
 	
 	const bool opEquals(const SkiboCard c)  {return opCmp(c)==0;} 
-	
+	const bool canBeDropedOn(const SkiboCard c) {return (Value==13||Value==c.Value+1);}
 	const int opCmp (const SkiboCard rhs) {
 		//TODO do something about Joker handling
 		if (Value<rhs.Value) return -1;
