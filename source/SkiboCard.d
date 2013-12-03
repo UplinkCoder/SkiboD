@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 module SkiboCard;
+=======
+>>>>>>> 6ffaf3a856c6b8dce8dda5a9e7fe9e4ccbeb20b6
 import std.conv:to;
 import std.exception:enforce;
 
@@ -11,7 +14,11 @@ struct SkiboCard {
 		
 	
 	const bool opEquals(const SkiboCard c)  {return opCmp(c)==0;} 
+<<<<<<< HEAD
 	const bool canBeDropedOn(const SkiboCard c) {return (Value==13||Value==c.Value+1);}
+=======
+	
+>>>>>>> 6ffaf3a856c6b8dce8dda5a9e7fe9e4ccbeb20b6
 	const int opCmp (const SkiboCard rhs) {
 		//TODO do something about Joker handling
 		if (Value<rhs.Value) return -1;
