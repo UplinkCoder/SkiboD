@@ -4,6 +4,5 @@
 	"copyright": "Copyright © 2013, Stefan Koch",
 	"authors": ["Stefan (Uplink_Coder) Koch"],
 	"dependencies": {
-		"vibe-d": ">=0.7.18"
 	}
 }
