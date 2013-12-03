@@ -1,12 +1,11 @@
-module _containers._stack;
-import std.container:SList;
+module _containers._stack; import std.container:SList;
 
 interface IStack(T) {
 	/** Not to be used if empty==true
 	*/
-	@property ref T top();
-	@property ref T pop();
-	@property void push(ref T);
+	@property T top();
+	@property auto T pop();
+	@property void push(T);
 	@property bool empty();
 	@property size_t length();
 	
@@ -18,7 +17,7 @@ class SListStack(T):IStack!T {
 	size_t size=0;
 	SList!T Data;
 	
-	this() {}
+	this(){}
 	
 	this(T Item) {
 		debug writeln("Constructor this("~to!string(Item)~") called");
@@ -44,7 +43,7 @@ class SListStack(T):IStack!T {
 	@property T top() {
 		return Data.front;
 	}
-	@property T pop () {
+	@property T pop() {
 		size--;
 		return Data.removeAny;
 	}

@@ -1,17 +1,17 @@
 import _containers._stack;
 public import SkiboCard:SkiboCard;
 
-class CardStack : Stack!SkiboCard,IStack!SkiboCard {
+class CardStack : Stack!SkiboCard {
 	/*
-	override @property SkiboCard top() {
+	override @property ref SkiboCard top() {
 		return Stack!SkiboCard.top;
 	}
 	
-	override @property SkiboCard pop() {
+	override @property ref SkiboCard pop() {
 		return Stack!SkiboCard.pop;
 	}
-	override @property void push(SkiboCard c) {
-		return (cast(Stack!SkiboCard).push(c));
+	override @property void push(ref SkiboCard c) {
+		return Stack!SkiboCard.push(c);
 	}
 	*/	
 	interface Viewable:IStack!SkiboCard {
@@ -21,7 +21,7 @@ class CardStack : Stack!SkiboCard,IStack!SkiboCard {
 	}
 	
 	interface Playable:IStack!SkiboCard {
-		final bool playCard(ref CardStack.Dropable s) {
+		final bool playCard(CardStack.Dropable s) {
 			if(s.drop(top)) {
 				pop;
 				return true;
@@ -31,9 +31,9 @@ class CardStack : Stack!SkiboCard,IStack!SkiboCard {
 		}
 	}
 	
-	interface Dropable : Viewable,IStack!SkiboCard {
-		bool dropCondition(ref SkiboCard c);
-		final bool drop(ref SkiboCard c) {
+	interface Dropable : Viewable {
+		bool dropCondition(SkiboCard c);
+		final bool drop(SkiboCard c) {
 			if (dropCondition(c)) {
 				push(c);
 				return true;
