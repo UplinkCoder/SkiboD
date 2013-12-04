@@ -1,8 +1,9 @@
 {
 	"name": "skibod",
-	"description": "Skibo cardgame in D",
-	"copyright": "Copyright © 2013, Stefan Koch",
-	"authors": ["Stefan (Uplink_Coder) Koch"]
-
-
+	"description": "The Skibo cardgame in D.",
+	"copyright": "Copyright Â© 2013, uplink",
+	"authors": ["uplink"],
+	"dependencies": {
+	}
 }
+

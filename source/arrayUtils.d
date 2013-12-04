@@ -6,7 +6,6 @@ if ( (isAggregateType!(U) || isArray!(U)) )
  	T[] result;
  	foreach (param;paramArray) {
  		result ~= T(param);
- 		debug writeln("result : ",result,"param[",result.length,"] : ",param);
  	}
  	return result;
 }

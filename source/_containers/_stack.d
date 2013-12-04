@@ -20,15 +20,12 @@ class SListStack(T):IStack!T {
 	this(){}
 	
 	this(T Item) {
-		debug writeln("Constructor this("~to!string(Item)~") called");
 		push(Item);
 	}
 	
 	this(T[] Items) {
-		debug writeln("Constructor this("~to!string(Items)~") called");
 		 foreach (Item;Items) {
-		 	 debug writeln ("Calling push("~to!string(Item)~");");
-		 	 push(Item);
+		 	push(Item);
 		 	 
 		 }
 	}

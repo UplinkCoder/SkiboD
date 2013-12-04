@@ -1,19 +1,8 @@
-import _containers._stack;
+public import _containers._stack;
 public import SkiboCard:SkiboCard;
 
 class CardStack : Stack!SkiboCard {
-	/*
-	override @property ref SkiboCard top() {
-		return Stack!SkiboCard.top;
-	}
 	
-	override @property ref SkiboCard pop() {
-		return Stack!SkiboCard.pop;
-	}
-	override @property void push(ref SkiboCard c) {
-		return Stack!SkiboCard.push(c);
-	}
-	*/	
 	interface Viewable:IStack!SkiboCard {
 		final public SkiboCard view() {
 			return (top);
