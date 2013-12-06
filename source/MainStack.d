@@ -1,5 +1,4 @@
 import SkiboCard:SkiboCard;
-import SupportStack:SupportStack;
 import arrayUtils:makeArray; 
 import std.random:randomShuffle;
 import std.exception:enforce;
@@ -10,7 +9,8 @@ struct MainStack  {
 	
 	bool shuffled=false;
 	enum InitInts =
-	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 
+	[
+	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
@@ -23,7 +23,8 @@ struct MainStack  {
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
 	13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
-			13, 13, 13, 13, 13, 13, 13, 13];
+			13, 13, 13, 13, 13, 13, 13, 13
+	];
 	
 	void shuffle() {
 		shuffled=true;

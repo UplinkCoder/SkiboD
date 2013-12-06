@@ -1,50 +1,72 @@
 /** Player.d is an Interface to Implemnt A Skibo Player :D */
 
-import std.system,std.stdio,std.exception;
-public import SupportStack:SupportStack;
+import std.stdio,std.exception,std.algorithm;
+import cardstack;
+import Actions;
 public import SkiboCard:SkiboCard;
 public import GameTable:GameTable;
-public import Actions;
+import std.conv:to;
 
 
 abstract class Player  {
-	protected :
-	PlayerAction action = PlayerAction.notPlaying; 
-	int id=0;
-	GameTable* Table;
-	
-	final this(ref GameTable t) {
-		foreach (_SupportStack;SupportStacks) {
-			_SupportStack= new SupportStack();
-		}
-		id=t.registerPlayer(this);
-		enforce((id!=0),"The Game has already started"); 
-		Table=&t;
-				
-	}
-	alias Table this;
-	
-	public final void draw() {
-		action=PlayerAction.draw;
-		while(Hand.length<=5) {
-			debug writeln(Hand);
-			Hand ~= (*Table).draw();
-		}
-	}
-	 /** Called by the table on the turn of player */
-	public final void turn () {
-		draw();
-		(*Table).notifyPlayers();
-		while (action != PlayerAction.discardCardOnSupportStack) {
-			makeMove();
-			(*Table).notifyPlayers();
-		}
-		//discardCard();
-	}
-	
-	SupportStack SupportStacks[4];
-	SkiboCard[] Hand;
-	public abstract void makeMove();  /** this function is called when the Player has to make it's move */ 
+	/** this function is called when the Player has to make it's move */ 
+	public abstract void makeMove();  
 	//final void discardCard(SkiboCard c,SupportStack s) {} /** Signals the Player ends it's turn by discarding a Card onto a support Stack */
 	public abstract void notify();
-}
+	
+	
+	protected :
+	string Name; 
+	SkiboCard[] Hand;
+	bool seated = false;
+	GameTable Table;
+	
+	public final void turn() {
+		draw();
+		
+	}
+	
+	final this(string Name) {
+		this.Name = Name;
+	}
+	
+	public final bool sit(GameTable Table) {
+		enforce(!seated,"you cannot allocate two seats");
+		if(Table.registerPlayer(this)) { 
+			seated = true;
+			draw();
+		}
+		return seated;
+	}
+	
+	
+	@property protected final PlayerStack playerStack() {return Table.getPlayerStack(this);}
+	@property protected final SupportStack[4] supportStacks() {return Table.getSupportStacks(this);}
+	
+	protected final void draw() {
+		while (Hand.length<5) {
+			Hand ~= Table.drawCard;
+			notifyOtherPlayers();
+		}
+	}
+	
+	final protected SkiboCard takeCard(SkiboCard c) {
+		SkiboCard[] a;a~=c;
+		auto pick = findSplit(a,Hand);
+			enforce((pick[0]!=Hand),"No such Card"); 
+		Hand = pick[0] ~ pick[2];
+		return pick[1][0];
+	}
+	 
+	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.drop(c);}
+	 
+	private bool _sitting=false;
+	
+	private final notifyOtherPlayers() {
+		foreach (_player;Table.players) {
+			_player.notify();
+		}
+	}
+	
+
+};	 

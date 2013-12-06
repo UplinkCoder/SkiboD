@@ -7,21 +7,20 @@ import MainStack:MainStack;
 import Player:Player;
 import std.exception:enforce;
 
-import arrayUtils:makeArray;
-
 struct GameTable {
 	public:
-	SkiboCard draw() {return mainStack.draw();} 
-	@property  immutable(Player[]) players() {return cast(immutable)(_players);}
+	SkiboCard drawCard() {return mainStack.draw();} 
+	@property  Player[] players() {return (PlayerList);}
 	@property  immutable(bool) halted() {return cast(immutable)(_halted);}
 	@property  immutable(bool) running() {return cast(immutable)(_running);}
+		
 	
-	int registerPlayer(ref Player p){
+	bool registerPlayer(ref Player p){
 		if(!running) {
-			_players ~= p;
-			return players.length;
+			SeatMap[p] = Seat(p);
+			return true;
 		} else {
-			return 0;
+			return false;
 		}
 	}
 	void run() {
@@ -29,7 +28,7 @@ struct GameTable {
 	}
 	
 	void notifyPlayers() {
-		foreach (player;_players) {
+		foreach (player;PlayerList) {
 			player.notify();
 		}
 	}
@@ -41,12 +40,28 @@ struct GameTable {
 	
 	void startGameLoop() {
 		while (running) {
-			foreach (player;_players) {
+			foreach (player;PlayerList) {
 				player.turn();
 			}
 		}
 	}
+	
+	PlayerStack getPlayerStack(Player p) { return(SeatMap[p].playerStack);}
+	SupportStack[4] getSupportStacks(Player p) {return (SeatMap[p].supportStacks);}
 	private:
+	
+	Seat[Player] SeatMap;
+	
+	struct Seat {
+		ubyte number; 
+		Player owner;
+		PlayerStack playerStack;
+		SupportStack[4] supportStacks; 
+		this(ref Player p) {
+			owner = p;
+		}
+	}
+
 	
 	void _startGame() {
 		enforce(players.length>1,"how do you expect to start a game with just one player ?");
@@ -56,24 +71,13 @@ struct GameTable {
 	bool _halted = false;
 	bool _running = false;
 	
-	Player[] _players;
+	Player[] PlayerList;
+	
 	
 	//Player* onTurn;
 	
 	MainStack mainStack = MainStack();
 	
-	class DropStack : CardStack,CardStack.Dropable {
-		bool dropCondition(SkiboCard c) {
-			if (discardCondition) discardStack();
-			return (c==SkiboCard.Joker||top==c-1);
-		}
-		private :
-		bool discardCondition() {
-			return (length==13);
-		}
-		void discardStack() {
-			//TODO Implement discardStack
-		}
-	}
+	
 	
 } 

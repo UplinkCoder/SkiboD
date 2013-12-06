@@ -10,18 +10,25 @@ struct SkiboCard {
 		enforce(v>=to!int(CardValue._1)&&v<=to!int(CardValue._J),"The is no such Card in Skibo");
 		Value=to!CardValue(v);
 	}
+	
+	this (SkiboCard.CardValue v) {
+		Value=v;
+	}
 
 	@property static immutable SkiboCard Joker = SkiboCard(SkiboCard.CardValue._J);
-
-	const bool opEquals(const SkiboCard c)  {return opCmp(c)==0;}
+	@property static immutable SkiboCard NoCard = SkiboCard(SkiboCard.CardValue.NoCard);
+	
+	bool opEquals(SkiboCard that) const {return this.Value==that.Value;} 
 	 
 	SkiboCard opBinary(string op)(int rhs) {
 	static if (op == "+") return SkiboCard(Value+rhs);
 	else static if (op == "-") return SkiboCard(Value-rhs);
 	else static assert(0, "Operator "~op~" not implemented");
-}
-	const int opCmp (const SkiboCard rhs) {
-		//TODO do something about Joker handling
+}	
+	int opCmp (int rhs) {return opCmp(SkiboCard(rhs));}
+	
+	int opCmp (const SkiboCard rhs) {
+		
 		if (Value<rhs.Value) return -1;
 		if (Value==rhs.Value) return 0;
 		else return 1;
@@ -30,7 +37,7 @@ struct SkiboCard {
 	CardValue Value;
 	
 	enum CardValue {
-	_none, // init
+	NoCard, // init
 	_1,
 	_2,
 	_3,

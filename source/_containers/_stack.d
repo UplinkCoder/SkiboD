@@ -5,7 +5,7 @@ interface IStack(T) {
 	*/
 	@property T top();
 	@property auto T pop();
-	@property void push(T);
+	@property void push(T Item);
 	@property bool empty();
 	@property size_t length();
 	
@@ -19,6 +19,7 @@ class SListStack(T):IStack!T {
 	
 	this(){}
 	
+
 	this(T Item) {
 		push(Item);
 	}
@@ -49,5 +50,19 @@ class SListStack(T):IStack!T {
 	@property bool empty() {
 		return Data.empty;
 	}
+	
+//	SListStack!T opBinary(string op)(T rhs) {
+//		static if (op=="~") {
+//			push(rhs);
+//			return this;
+//		}
+//	}
+//		
+//	T[] opBinaryRight(string op)(T[] lhs) {
+//	static if (op=="~") {
+//		return lhs ~ pop;
+//		}
+//	}	
+	
 }	
 alias  SListStack Stack; 
