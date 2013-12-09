@@ -1,4 +1,5 @@
-public import Player; 
+public import Player;
+import std.algorithm; 
 import std.stdio;
 import std.conv:to;
 import std.file;
@@ -17,15 +18,18 @@ class dummyPlayer:Player {
 		
 		//if(input=="showHand") showHand(); 
 	}
+	SkiboCard pickSomeCard() {
+		return takeCard(Hand[0]);
+	}
 	
 	SkiboCard pickCard() {
-		dchar[2] input;
+		string input;
 		writeln("please enter one Value in the Range of [1-12] or 'J' ");
-		readf("%s",&input);
-	if (input=="J") {
-		return takeCard(SkiboCard(to!int(input)));	
-	} else {
-		return takeCard(SkiboCard.Joker); 
+		readf(" %s",&input);
+		if (input=="J") {
+			return takeCard(SkiboCard.Joker); 	
+		} else {
+			return takeCard(SkiboCard(to!int(input)));
 		}
 	}
 	

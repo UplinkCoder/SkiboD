@@ -46,13 +46,12 @@ abstract class Player  {
 	protected final void draw() {
 		while (Hand.length<5) {
 			Hand ~= Table.drawCard;
-			notifyOtherPlayers();
 		}
 	}
 	
 	final protected SkiboCard takeCard(SkiboCard c) {
 		SkiboCard[] a;a~=c;
-		auto pick = findSplit(a,Hand);
+		auto pick = findSplit(Hand,a);
 			enforce((pick[0]!=Hand),"No such Card"); 
 		Hand = pick[0] ~ pick[2];
 		return pick[1][0];
@@ -61,12 +60,6 @@ abstract class Player  {
 	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.drop(c);}
 	 
 	private bool _sitting=false;
-	
-	private final notifyOtherPlayers() {
-		foreach (_player;Table.players) {
-			_player.notify();
-		}
-	}
 	
 
 };	 

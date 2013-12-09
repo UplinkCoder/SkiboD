@@ -11,8 +11,8 @@ abstract class CardStack : Stack!SkiboCard {
 	}
 	
 	interface Playable : Viewable {
-		/** drops the to card of this onto the Dropable Stack */
-		final void playCard(CardStack.Dropable stack) {
+		/** drops the top card of this onto the Dropable Stack */
+		final void playTop(CardStack.Dropable stack) {
 			stack.drop(pop);
 		}
 	}

@@ -48,8 +48,8 @@ struct GameTable {
 	
 	PlayerStack getPlayerStack(Player p) { return(SeatMap[p].playerStack);}
 	SupportStack[4] getSupportStacks(Player p) {return (SeatMap[p].supportStacks);}
-	private:
 	
+	private:
 	Seat[Player] SeatMap;
 	
 	struct Seat {
