@@ -11,8 +11,6 @@ import MainStack;
 
 void main () {
 	
-	writeln(enumUtilsTest);
-	
 	SkiboCard[] Cards;
 	auto range = makeDiscreteIntegerArray(1,13);
  	auto t = GameTable();

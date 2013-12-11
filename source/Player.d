@@ -57,7 +57,7 @@ abstract class Player  {
 		return pick[1][0];
 	}
 	 
-	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.drop(c);}
+	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.push(c);}
 	 
 	private bool _sitting=false;
 	

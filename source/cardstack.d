@@ -9,24 +9,13 @@ abstract class CardStack : Stack!SkiboCard {
 		final @property SkiboCard view() {
 			return (top);
 		}  
-<<<<<<< HEAD
 	}	
-=======
-	}
-	
-	interface Playable : Viewable {
-		/** drops the top card of this onto the Dropable Stack */
-		final void playTop(CardStack.Dropable stack) {
-			stack.drop(pop);
-		}
-	}
->>>>>>> 221ebd6301ac783440d3fefedf8095e87ff225cc
-	
-	interface Dropable : Viewable {
+
+	interface Dropable : CardStack.Viewable {
 		bool dropCondition(SkiboCard card);
 		final void push(SkiboCard card) {
 			enforce(dropCondition(card),"dropCondition was not statisfaid"); 
-				super.push(card);
+				push(card);
 		}
 	}
 	/*
@@ -35,31 +24,36 @@ abstract class CardStack : Stack!SkiboCard {
 	final private @property void push(SkiboCard card){assert(false,"push is not to be called");}
 	*/ 
 }
-
 abstract class OwendCardStack:CardStack {
 	Player owner;
-	//auto peqo = delegate () {return p==owner||owner==null;};
-	final @property SkiboCard push(Player p,SkiboCard card){if(peqo){super.push(card);}}
-	final @property SkiboCard push(Player p,SkiboCard card){if(peqo){super.push(card);}}
-	final @property SkiboCard push(Player p,SkiboCard card){if(peqo){super.push(card);}}
 	
-	interface Playable : Viewable {
+	bool peqo(Player p) {
+		return p==owner; 
+	}
+	final @property void push(Player p,SkiboCard card){enforce(peqo(p),"Not Player"),super.push(card);}
+	final @property SkiboCard top(Player p){enforce(peqo(p),"Not Owner"); return super.top;}
+	final @property SkiboCard pop(Player p){enforce(peqo(p),"Not Owner"); return super.pop;}
+	
+	interface Playable:Viewable {
 		/** drops the to card of this onto the Dropable Stack */
-		final void pop(CardStack.Dropable stack) {
-			stack.drop(super.pop);
+		final void drop(CardStack.Dropable stack) {
+			stack.push(pop);
 		}
 	}
 	
-	class PlayerStack:OwendCardStack,OwendCardStack.Playable {
-	this(SkiboCard[] init) {
-		foreach (card;init) super.push(card);
+	class PlayerStack:OwendCardStack,Playable {
+	this(ref Player p,SkiboCard[] init) {
+		owner=p;
+		foreach (card;init) super.push(p,card);
 		}
 	}
 
-	class SupportStack : CardStack, CardStack.Dropable, CardStack.Playable {
+	class SupportStack : CardStack, CardStack.Dropable, OwendCardStack.Playable {
+	this(ref Player p) {
+		owner=p;
+	}	
 	bool dropCondition(SkiboCard c) {return true;}	 
 	}
-		
 		
 }
 
@@ -78,3 +72,7 @@ class DropStack : CardStack,CardStack.Dropable {
 		this.clear;
 	}
 }
+
+alias OwendCardStack.PlayerStack PlayerStack;
+
+alias OwendCardStack.SupportStack SupportStack; 
