@@ -11,6 +11,8 @@ import MainStack;
 
 void main () {
 	
+	writeln(enumUtilsTest);
+	
 	SkiboCard[] Cards;
 	auto range = makeDiscreteIntegerArray(1,13);
  	auto t = GameTable();
@@ -22,7 +24,10 @@ void main () {
  	dummy2.sit(t);
  	dummy2.printHand;
  	dummy1.printHand;
- 	writeln(dummy1.pickCard);
+ 	dummy1.pickSomeCard.writeln();
+ 	dummy1.pickSomeCard.writeln();
+ 	dummy1.showHand;
+ 	
  	//auto S = SkiboCard(22);
  	auto C = SkiboCard.NoCard;
  	dummy2.turn;

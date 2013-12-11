@@ -9,7 +9,18 @@ abstract class CardStack : Stack!SkiboCard {
 		final @property SkiboCard view() {
 			return (top);
 		}  
+<<<<<<< HEAD
 	}	
+=======
+	}
+	
+	interface Playable : Viewable {
+		/** drops the top card of this onto the Dropable Stack */
+		final void playTop(CardStack.Dropable stack) {
+			stack.drop(pop);
+		}
+	}
+>>>>>>> 221ebd6301ac783440d3fefedf8095e87ff225cc
 	
 	interface Dropable : Viewable {
 		bool dropCondition(SkiboCard card);

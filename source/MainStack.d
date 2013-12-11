@@ -40,7 +40,7 @@ struct MainStack  {
 	
 	public SkiboCard draw() {
 		if(!shuffled)shuffle;
-		if(length==MainStackSize) {
+		if(length==1) {
 			shuffle();
 			}
 		Cards = Cards[1..$];
