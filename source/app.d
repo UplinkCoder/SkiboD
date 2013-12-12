@@ -27,8 +27,6 @@ void main () {
  	
  	t.startGame();
  	writeln(t.DropStacks);
- 	auto C = SkiboCard(1);
- 	writeln(t.DropStacks);
  	dummy2.turn;
  	dummy1.turn;
  	

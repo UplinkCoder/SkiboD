@@ -4,7 +4,7 @@ import std.random:randomShuffle;
 import std.exception:enforce;
 
 struct MainStack  {
-//	@disable this();
+
 	private:
 	
 	bool shuffled=false;
@@ -35,7 +35,7 @@ struct MainStack  {
 	
 	
 	immutable static int MainStackSize=162;
-	SkiboCard[] Cards = makeArray!SkiboCard(InitInts);
+	SkiboCard[] Cards;// = makeArray!SkiboCard(InitInts);
 	alias Cards this;
 	
 	public SkiboCard draw() {

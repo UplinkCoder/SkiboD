@@ -33,7 +33,7 @@ abstract class Player  {
 		this.Name = Name;
 	}
 	
-	public final bool sit(GameTable Table) {
+	public final bool sit(ref GameTable Table) {
 		enforce(!seated,"you cannot allocate two seats");
 		if(Table.registerPlayer(this)!=0) { 
 			seated = true;

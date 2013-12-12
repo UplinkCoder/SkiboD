@@ -14,7 +14,7 @@ struct GameTable {
 	
 	public:
 	SkiboCard drawCard() {return mainStack.draw();} 
-	@property  auto players() {return SeatMap.keys;}
+	@property  auto players() {return PlayerList;}
 	@property  immutable(bool) halted() {return cast(immutable)(_halted);}
 	@property  immutable(bool) running() {return cast(immutable)(_running);}
 	@property  auto DropStacks() {return (dropStacks.tops);} 
@@ -26,7 +26,6 @@ struct GameTable {
 		if(!running && p !in SeatMap) {
 			PlayerList ~= p;
 			SeatMap[p] = Seat(p);
-			writeln(to!string(cast(Player)p) ~ " is added to PlayerList " ~ to!string(PlayerList));
 			return true;
 		} else {
 			return false;
@@ -70,7 +69,7 @@ struct GameTable {
 	}
 		
 	Seat[Player] SeatMap;
-	Player[] PlayerList;
+	Player PlayerList[];
 		
 	void initDropStacks() {
 		foreach(i;0..4) {
@@ -78,7 +77,7 @@ struct GameTable {
 		}
 	}	
 	void _startGame() {
-		//enforce(PlayerList.length>1,"how do you expect to start a game with zero or one player ?");
+		enforce(PlayerList.length>1,"how do you expect to start a game with zero or one player ?");
 		initDropStacks;
 		startGameLoop();
 	}
