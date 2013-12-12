@@ -61,7 +61,7 @@ abstract class Player  {
 	}
 	/// the game will abort if you do something against the rules !!!
 	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.drop(takeCard(c));}
-	protected final void playStack(ref DropStack s) 	{Table.getPlayerStack(this).dropTop(s);}
+	protected final void playStack(ref DropStack s) 	{Table.getPlayerStack(this).playTop(s);}
 	protected final discardCard(SkiboCard c,ref SupportStack s) {s.drop(this,takeCard(c));}
 	 
 	private bool _sitting=false;

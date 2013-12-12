@@ -60,7 +60,7 @@ abstract class OwendCardStack:CardStack {
 	
 	interface Playable:Viewable {
 		/** drops top to card of this onto the Dropable Stack */
-		final void dropTop(DropStack stack) {
+		final void playTop(DropStack stack) {
 			stack.push(pop);
 		}
 	}
@@ -72,7 +72,7 @@ abstract class OwendCardStack:CardStack {
 		}
 	}
 
-	class SupportStack : OwendCardStack, Playable {
+	class SupportStack : OwendCardStack,Playable {
 		this(ref Player p) {
 			owner=p;
 		}	
