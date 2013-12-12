@@ -3,9 +3,9 @@ module _containers._stack; import std.container:SList;
 interface IStack(T) {
 	/** Not to be used if empty==true
 	*/
-	@property T top();
+	@property auto T top();
 	@property auto T pop();
-	@property void push(T Item);
+	@property auto void push(T Item);
 	@property bool empty();
 	@property size_t length();
 	
