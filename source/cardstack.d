@@ -25,7 +25,7 @@ abstract class CardStack : Stack!SkiboCard {
 				push(card);
 		}
 	}
-	class DropStack : CardStack,Viewable {
+	static class DropStack : CardStack,Viewable {
 		bool dropCondition(SkiboCard c) {
 			if (discardCondition) discardStack();
 			return (c==view+1);
@@ -65,14 +65,14 @@ abstract class OwendCardStack:CardStack {
 		}
 	}
 	
-	class PlayerStack:OwendCardStack,Playable {
+	static class PlayerStack:OwendCardStack,Playable {
 	this(ref Player p,SkiboCard[] init) {
 		owner=p;
 		foreach (card;init) push(p,card);
 		}
 	}
 
-	class SupportStack : OwendCardStack,Playable {
+	static class SupportStack : OwendCardStack,Playable {
 		this(ref Player p) {
 			owner=p;
 		}	
@@ -82,5 +82,5 @@ abstract class OwendCardStack:CardStack {
 }
 
 alias OwendCardStack.PlayerStack PlayerStack;
-
+alias CardStack.DropStack DropStack;
 alias OwendCardStack.SupportStack SupportStack; 
