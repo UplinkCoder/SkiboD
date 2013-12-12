@@ -24,11 +24,11 @@ void main () {
  	dummy2.sit(t);
  	dummy2.printHand;
  	dummy1.printHand;
-
+ 	
  	t.startGame();
  	writeln(t.DropStacks);
  	auto C = SkiboCard(1);
- 	t.dropStacks[1].push(C);
+ 	writeln(t.DropStacks);
  	dummy2.turn;
  	dummy1.turn;
  	

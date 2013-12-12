@@ -23,7 +23,7 @@ struct SkiboCard {
 	SkiboCard opBinary(string op)(int rhs) {
 	static if (op == "+") return SkiboCard(Value+rhs);
 	else static if (op == "-") return SkiboCard(Value-rhs);
-	else static assert(0, "Operator "~op~" not implemented");
+	else static assert(false, "Operator "~op~" not implemented");
 }	
 	int opCmp (int rhs) {return opCmp(SkiboCard(rhs));}
 	

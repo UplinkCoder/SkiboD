@@ -16,6 +16,7 @@ abstract class Player  {
 	
 	
 	protected :
+	int id;
 	string Name; 
 	SkiboCard[] Hand;
 	bool seated = false;
@@ -34,7 +35,7 @@ abstract class Player  {
 	
 	public final bool sit(GameTable Table) {
 		enforce(!seated,"you cannot allocate two seats");
-		if(Table.registerPlayer(this)) { 
+		if(Table.registerPlayer(this)!=0) { 
 			seated = true;
 			draw();
 		}
@@ -58,8 +59,10 @@ abstract class Player  {
 		Hand = pick[0] ~ pick[2];
 		return pick[1][0];
 	}
-	 
-	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.push(takeCard(c));}
+	/// the game will abort if you do something against the rules !!!
+	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.drop(takeCard(c));}
+	protected final void playStack(ref DropStack s) 	{Table.getPlayerStack(this).dropTop(s);}
+	protected final discardCard(SkiboCard c,ref SupportStack s) {s.drop(this,takeCard(c));}
 	 
 	private bool _sitting=false;
 	

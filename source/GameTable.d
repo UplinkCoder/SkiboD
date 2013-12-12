@@ -18,14 +18,15 @@ struct GameTable {
 	@property  immutable(bool) halted() {return cast(immutable)(_halted);}
 	@property  immutable(bool) running() {return cast(immutable)(_running);}
 	@property  auto DropStacks() {return (dropStacks.tops);} 
-	@property pushOntoDropStack(int n,SkiboCard card) {return dropStacks[n].push(card);}   	
+	//@property pushOntoDropStack(int n,SkiboCard card) {return dropStacks[n].push(card);}   	
 	
 	
-	bool registerPlayer(Player p){
+	bool registerPlayer(ref Player p){
 		
 		if(!running && p !in SeatMap) {
+			PlayerList ~= p;
 			SeatMap[p] = Seat(p);
-			writeln(to!string(cast(Player)p) ~ " is added to PlayerList " ~ to!string(players));
+			writeln(to!string(cast(Player)p) ~ " is added to PlayerList " ~ to!string(PlayerList));
 			return true;
 		} else {
 			return false;
@@ -69,6 +70,7 @@ struct GameTable {
 	}
 		
 	Seat[Player] SeatMap;
+	Player[] PlayerList;
 		
 	void initDropStacks() {
 		foreach(i;0..4) {
@@ -76,7 +78,7 @@ struct GameTable {
 		}
 	}	
 	void _startGame() {
-		enforce(players.length>1,"how do you expect to start a game with just one player ?");
+		//enforce(PlayerList.length>1,"how do you expect to start a game with zero or one player ?");
 		initDropStacks;
 		startGameLoop();
 	}
