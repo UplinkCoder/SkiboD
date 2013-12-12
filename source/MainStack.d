@@ -44,9 +44,6 @@ struct MainStack  {
 			shuffle();
 			}
 		Cards = Cards[1..$];
-		import std.stdio:writeln;
-		import std.conv:to;
-		writeln("SomeOne drew "~to!string(Cards[0]));
 		return Cards[0];
 	}
 	@property public int length() {return Cards.length;} 
