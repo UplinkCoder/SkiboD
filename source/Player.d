@@ -24,8 +24,10 @@ abstract class Player  {
 	public final void turn() {
 		draw();
 		
+	} 
+	public override string toString() {
+		return Name;
 	}
-	
 	final this(string Name) {
 		this.Name = Name;
 	}
@@ -49,7 +51,7 @@ abstract class Player  {
 		}
 	}
 	
-	final protected SkiboCard takeCard(SkiboCard c) {
+	final private SkiboCard takeCard(SkiboCard c) {
 		SkiboCard[] a;a~=c;
 		auto pick = findSplit(Hand,a);
 			enforce((pick[0]!=Hand),"No such Card"); 
@@ -57,7 +59,7 @@ abstract class Player  {
 		return pick[1][0];
 	}
 	 
-	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.push(c);}
+	protected final void playCard(SkiboCard c,ref DropStack s) 	{s.push(takeCard(c));}
 	 
 	private bool _sitting=false;
 	

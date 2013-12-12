@@ -1,14 +1,20 @@
 import _containers._stack;
 public import SkiboCard:SkiboCard;
 import Player:Player;
+import std.stdio:writeln;
+import std.algorithm:map;
 import std.exception:enforce;
+
+alias map!(d => d.top) tops;
 
 abstract class CardStack : Stack!SkiboCard {
 	
+	
 	interface Viewable:IStack!SkiboCard {
 		final @property SkiboCard view() {
-			return (top);
-		}  
+			if (this !is null) return (top);
+			else return SkiboCard.NoCard;
+		}
 	}	
 
 	interface Dropable : CardStack.Viewable {
@@ -62,8 +68,10 @@ class DropStack : CardStack,CardStack.Dropable {
 		if (discardCondition) discardStack();
 		return (c==SkiboCard.Joker||view==c-1);
 	}
+	this() {
+		push(SkiboCard.NoCard);
+	}
 	private :
-	
 	bool discardCondition() {
 		return (length==13);
 	}
