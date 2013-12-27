@@ -13,8 +13,3 @@ public enum Actions {
 		 _playSupportStackCard,
 		 _discardCardOnSupportStack // ends turn
 	 };
-	
-	enum Foo : void function()
-{
-    WOMBAT = function void () {writeln("Wombat");}
-}

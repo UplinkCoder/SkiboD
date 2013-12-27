@@ -10,24 +10,19 @@ import arrayUtils:makeArray,makeDiscreteIntegerArray;
 import MainStack;
 
 void main () {
-	
-	SkiboCard[] Cards;
-	auto range = makeDiscreteIntegerArray(1,13);
- 	auto t = GameTable();
+ 	GameTable t = new GameTable;
  	
  	//writeln(t);
  	dummyPlayer dummy1 = new dummyPlayer("One");
  	dummy1.printHand();
  	dummy1.sit(t);
 
+	
  	dummyPlayer dummy2 = new dummyPlayer("Two");
  	dummy2.sit(t);
  	dummy2.printHand;
  	dummy1.printHand;
  	
  	t.startGame();
- 	writeln(t.DropStacks);
- 	dummy2.turn;
- 	dummy1.turn;
- 	
+
 }

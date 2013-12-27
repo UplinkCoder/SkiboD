@@ -24,7 +24,7 @@ abstract class Player  {
 	
 	public final void turn() {
 		draw();
-		
+		makeMove();
 	} 
 	public override string toString() {
 		return Name;
@@ -33,9 +33,10 @@ abstract class Player  {
 		this.Name = Name;
 	}
 	
-	public final bool sit(ref GameTable Table) {
+	public final bool sit(GameTable Table) {
 		enforce(!seated,"you cannot allocate two seats");
 		if(Table.registerPlayer(this)!=0) { 
+			this.Table = Table;
 			seated = true;
 			draw();
 		}
@@ -53,7 +54,7 @@ abstract class Player  {
 	}
 	
 	final private SkiboCard takeCard(SkiboCard c) {
-		SkiboCard[] a;a~=c;
+		SkiboCard[] a;a~=c; // allocting an array to use findSplit seems oversize wahtever!
 		auto pick = findSplit(Hand,a);
 			enforce((pick[0]!=Hand),"No such Card"); 
 		Hand = pick[0] ~ pick[2];

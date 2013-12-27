@@ -46,5 +46,5 @@ struct MainStack  {
 		Cards = Cards[1..$];
 		return Cards[0];
 	}
-	@property public int length() {return Cards.length;} 
+	@property public auto length() {return Cards.length;} 
 }	

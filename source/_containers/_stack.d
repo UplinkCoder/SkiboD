@@ -8,6 +8,7 @@ interface IStack(T) {
 	@property auto void push(T Item);
 	@property bool empty();
 	@property size_t length();
+	void clear();
 	
 }
 
@@ -16,7 +17,7 @@ class SListStack(T):IStack!T {
 	
 	size_t size=0;
 	SList!T Data;
-	
+
 	this(){}
 	
 	this(T Item) {
@@ -50,5 +51,7 @@ class SListStack(T):IStack!T {
 	@property bool empty() {
 		return Data.empty;
 	}
+	
+	void clear() {size=0,Data.clear;} 
 }	
 alias  SListStack Stack; 

@@ -6,7 +6,7 @@ import std.algorithm:map;
 import std.conv:to;
 import std.exception:enforce;
 
-alias map!(d => d.top) tops;
+alias map!(stack => stack.view) tops;
 
 abstract class CardStack : Stack!SkiboCard {
 	
@@ -18,27 +18,23 @@ abstract class CardStack : Stack!SkiboCard {
 		}
 	}	
 
-	interface Dropable : CardStack.Viewable {
-		bool dropCondition(SkiboCard card);
-		final void drop(SkiboCard card) {
-			enforce(dropCondition(card),"dropCondition was not statisfaid"), 
-				push(card);
-		}
-	}
+
 	static class DropStack : CardStack,Viewable {
+		this() {super.push(SkiboCard.NoCard);}
+		
+		@disable @property override void push (SkiboCard c){}
 		bool dropCondition(SkiboCard c) {
-			if (discardCondition) discardStack();
 			return (c==view+1);
 		}
 		void drop(SkiboCard c) {
+			if (discardCondition) discardStack();
 			if(c==SkiboCard.Joker && top!=SkiboCard(12)) c=view+1;
 			enforce(dropCondition(c),"You cannot drop "~to!string(c)~" onto "~to!string(top));
-			push(c);
+			super.push(c);
 		}
-		this() {
-			push(SkiboCard.NoCard);
-		}
+
 		private :
+		
 		bool discardCondition() {
 			return (length==13);
 		}
@@ -46,6 +42,7 @@ abstract class CardStack : Stack!SkiboCard {
 			if(discardCondition)
 			this.clear;
 		}
+		void clear() {super.clear; super.push(SkiboCard.NoCard);}
 	}
 }
 abstract class OwendCardStack:CardStack {
@@ -54,21 +51,22 @@ abstract class OwendCardStack:CardStack {
 	bool peqo(Player p) {
 		return p==owner; 
 	}
-	final @property void push(Player p,SkiboCard card){enforce(peqo(p),"Not Player"),super.push(card);}
+	final @property void push(Player p,SkiboCard card){enforce(peqo(p),"Not Owner"),super.push(card);}
 	final @property SkiboCard top(Player p){enforce(peqo(p),"Not Owner"); return super.top;}
 	final @property SkiboCard pop(Player p){enforce(peqo(p),"Not Owner"); return super.pop;}
 	
 	interface Playable:Viewable {
 		/** drops top to card of this onto the Dropable Stack */
 		final void playTop(DropStack stack) {
-			stack.push(pop);
+			stack.drop(pop());
 		}
 	}
 	
 	static class PlayerStack:OwendCardStack,Playable {
+	@disable @property override void push(SkiboCard c){}	
 	this(ref Player p,SkiboCard[] init) {
 		owner=p;
-		foreach (card;init) push(p,card);
+		foreach (card;init) super.push(p,card);
 		}
 	}
 
